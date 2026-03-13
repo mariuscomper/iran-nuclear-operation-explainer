@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seizing Iran's Uranium: The Physics of an Impossible Operation</title>
+
+<!-- Open Graph for Facebook sharing -->
+<meta property="og:title" content="Seizing Iran's Uranium: The Physics of an Impossible Operation" />
+<meta property="og:description" content="How do you extract 400kg of weapons-grade nuclear material from sealed tunnels deep inside a hostile nation — when the material itself could kill you?" />
+<meta property="og:type" content="article" />
+<meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Uranium_hexafluoride_crystals.jpg/1200px-Uranium_hexafluoride_crystals.jpg" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Seizing Iran's Uranium: The Physics of an Impossible Operation" />
+<meta name="twitter:description" content="An interactive explainer on the unprecedented military, chemical, and nuclear risks of seizing Iran's HEU stockpile." />
+
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@300;400;500&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Libre Baskerville', Georgia, serif;
+    background: #0a0a0b;
+    color: #d4d0c8;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .container { max-width: 900px; margin: 0 auto; padding: 0 32px; }
+  .mono { font-family: 'JetBrains Mono', monospace; }
+  .sans { font-family: 'DM Sans', sans-serif; }
+
+  .separator {
+    width: 100%; height: 1px;
+    background: linear-gradient(to right, transparent, #3a3a3c, transparent);
+    margin: 48px 0;
+  }
+
+  /* HEADER */
+  .header { padding: 48px 32px 0; max-width: 900px; margin: 0 auto; }
+  .header__kicker { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 3px; color: #8b7355; text-transform: uppercase; margin-bottom: 16px; }
+  .header__title { font-size: clamp(28px, 5vw, 44px); line-height: 1.15; font-weight: 700; color: #e8e4dc; margin-bottom: 20px; max-width: 750px; }
+  .header__dek { font-size: 17px; line-height: 1.7; color: #9a968e; max-width: 680px; font-style: italic; }
+
+  /* SECTION LABELS */
+  .section-label { font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: #8b7355; margin-bottom: 20px; }
+  .section-label--red { color: #c23616; }
+  .section-sub { font-size: 14px; color: #6a6a6c; margin-bottom: 28px; font-family: 'DM Sans', sans-serif; }
+
+  /* MEU BANNER */
+  .meu-banner { cursor: pointer; border: 1px solid rgba(194,54,22,0.27); padding: 20px 24px; background: rgba(194,54,22,0.03); transition: all 0.3s ease; margin-bottom: 40px; }
+  .meu-banner:hover { background: rgba(194,54,22,0.07); border-color: rgba(194,54,22,0.4); }
+  .meu-banner__head { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .meu-banner__body { margin-top: 16px; font-size: 14px; line-height: 1.75; color: #9a968e; font-family: 'DM Sans', sans-serif; }
+  .meu-banner__body p { margin-bottom: 12px; }
+  .meu-banner__note { color: #6a6a6c; font-size: 12px; font-family: 'JetBrains Mono', monospace; }
+
+  .tag { display: inline-block; padding: 3px 10px; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; border: 1px solid; font-family: 'JetBrains Mono', monospace; }
+  .tag--red { color: #c23616; border-color: #c23616; }
+
+  .toggle-arrow { margin-left: auto; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #6a6a6c; }
+
+  /* SITES */
+  .sites-grid { display: flex; gap: 16px; flex-wrap: wrap; }
+  .site-card { flex: 1; min-width: 220px; border: 1px solid #2a2a2c; padding: 20px; }
+  .site-card--primary { background: #13120f; }
+  .site-card__dist { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #6a6a6c; letter-spacing: 1px; margin-bottom: 8px; }
+  .site-card__name { font-size: 20px; font-weight: 700; color: #e8e4dc; margin-bottom: 6px; }
+  .site-card__status { font-family: 'DM Sans', sans-serif; font-size: 12px; color: #8b7355; margin-bottom: 8px; }
+  .site-card__note { font-family: 'DM Sans', sans-serif; font-size: 12px; color: #6a6a6c; line-height: 1.5; }
+
+  /* PHASE BUTTONS */
+  .phase-btn {
+    cursor: pointer; border: 1px solid #2a2a2c; padding: 16px 20px;
+    background: transparent; transition: all 0.3s ease; text-align: left; width: 100%;
+    display: flex; align-items: flex-start; gap: 14px; margin-bottom: 8px;
+    font-family: inherit; color: inherit;
+  }
+  .phase-btn:hover { border-color: #4a4a4c; background: #111113; }
+  .phase-btn.active { border-color: #8b7355; background: #13120f; }
+  .phase-btn__icon { font-family: 'JetBrains Mono', monospace; font-size: 22px; color: #3a3a3c; line-height: 1; flex-shrink: 0; }
+  .phase-btn.active .phase-btn__icon { color: #8b7355; }
+  .phase-btn__num { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #6a6a6c; letter-spacing: 1px; }
+  .phase-btn__title { font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 600; color: #9a968e; }
+  .phase-btn.active .phase-btn__title { color: #e8e4dc; }
+  .phase-btn__sub { font-family: 'DM Sans', sans-serif; font-size: 12px; color: #6a6a6c; }
+  .phase-btn__head { display: flex; align-items: baseline; gap: 10px; margin-bottom: 4px; }
+
+  .detail-box { border: 1px solid #2a2a2c; padding: 28px; background: #0e0e10; animation: fadeIn 0.4s ease; margin-top: 16px; }
+  .detail-box__text { font-size: 15px; line-height: 1.8; color: #b8b4ac; margin-bottom: 20px; font-family: 'DM Sans', sans-serif; }
+  .detail-box__risk { padding: 12px 16px; background: #1a1210; border: 1px solid #3a2a1a; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #c2956a; }
+
+  /* OPTION CARDS */
+  .options-grid { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 24px; }
+  .option-card {
+    cursor: pointer; border: 1px solid #2a2a2c; padding: 24px;
+    background: transparent; transition: all 0.4s ease; text-align: left;
+    flex: 1; min-width: 200px;
+  }
+  .option-card:hover { border-color: #4a4a4c; transform: translateY(-2px); }
+  .option-card.active { background: #111113; }
+  .option-card__num { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px; }
+  .option-card__title { font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 700; color: #e8e4dc; margin-bottom: 8px; }
+  .option-card__action { font-family: 'DM Sans', sans-serif; font-size: 12px; color: #6a6a6c; line-height: 1.5; }
+  .risk-bar { height: 3px; background: #1a1a1c; margin-top: 8px; border-radius: 2px; overflow: hidden; }
+  .risk-fill { height: 100%; transition: width 0.6s ease; width: 0; }
+
+  /* PRO/CON */
+  .procon { display: flex; gap: 32px; flex-wrap: wrap; }
+  .procon__col { flex: 1; min-width: 240px; }
+  .procon__label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 14px; }
+  .procon__item { font-family: 'DM Sans', sans-serif; font-size: 13px; color: #9a968e; padding: 8px 0; border-bottom: 1px solid #1a1a1c; line-height: 1.5; display: flex; gap: 10px; }
+  .procon__verdict { margin-top: 24px; padding: 16px 20px; background: #111113; font-family: 'DM Sans', sans-serif; font-size: 13px; color: #b8b4ac; line-height: 1.6; font-style: italic; border-left-width: 3px; border-left-style: solid; }
+
+  .option-detail { animation: fadeIn 0.4s ease; padding: 28px; background: #0e0e10; border: 1px solid; }
+
+  /* CHEMISTRY */
+  .chem-row { display: flex; gap: 20px; padding: 18px 20px; border: 1px solid #2a2a2c; align-items: flex-start; margin-bottom: 12px; }
+  .chem-row__formula { font-family: 'JetBrains Mono', monospace; font-size: 18px; font-weight: 500; min-width: 70px; flex-shrink: 0; }
+  .chem-row__name { font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600; color: #e8e4dc; margin-bottom: 4px; }
+  .chem-row__desc { font-family: 'DM Sans', sans-serif; font-size: 13px; color: #7a7a7c; line-height: 1.6; }
+
+  /* CRITICALITY */
+  .crit-box { border: 1px solid #3a1a1a; padding: 28px; background: #120e0e; }
+  .crit-box p { font-family: 'DM Sans', sans-serif; font-size: 14px; line-height: 1.8; color: #b8b4ac; margin-bottom: 16px; }
+  .crit-box strong { color: #e8e4dc; }
+  .crit-box__quote { padding: 14px 18px; background: #1a1210; border: 1px solid #4a2a1a; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #c2956a; line-height: 1.6; }
+  .crit-box__attr { color: #6a5a4a; font-size: 11px; }
+
+  /* BOTTOM */
+  .bottom-box { padding: 32px; border: 1px solid #2a2a2c; background: #0e0e10; }
+  .bottom-box blockquote { font-size: 18px; line-height: 1.6; color: #d4d0c8; border-left: 3px solid #8b7355; padding-left: 24px; margin-bottom: 20px; font-style: italic; }
+  .bottom-box__attr { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #6a6a6c; padding-left: 24px; }
+  .bottom-box__text { font-family: 'DM Sans', sans-serif; font-size: 14px; line-height: 1.8; color: #9a968e; }
+
+  .sources { padding-bottom: 48px; }
+  .sources__label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 1.5px; color: #4a4a4c; text-transform: uppercase; margin-bottom: 12px; }
+  .sources__text { font-family: 'DM Sans', sans-serif; font-size: 11px; color: #4a4a4c; line-height: 1.8; }
+
+  .accent { color: #c23616; }
+  .hidden { display: none; }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  @media (max-width: 600px) {
+    .container { padding: 0 16px; }
+    .header { padding: 32px 16px 0; }
+    .procon { flex-direction: column; }
+    .options-grid { flex-direction: column; }
+    .sites-grid { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header__kicker">Strategic Analysis · March 2026</div>
+  <h1 class="header__title">Seizing Iran's Uranium: The Physics of an Impossible Operation</h1>
+  <p class="header__dek">How do you extract 400kg of weapons-grade nuclear material from sealed tunnels deep inside a hostile nation — when the material itself could kill you?</p>
+</div>
+
+<div class="container">
+  <div class="separator"></div>
+
+  <!-- MEU BANNER -->
+  <div class="meu-banner" onclick="toggleMEU()">
+    <div class="meu-banner__head">
+      <span class="tag tag--red">Developing</span>
+      <span class="sans" style="font-size:14px;font-weight:600;color:#e8e4dc">Pentagon deploying Marine Expeditionary Unit to Middle East</span>
+      <span class="toggle-arrow" id="meu-arrow">▸</span>
+    </div>
+    <div class="meu-banner__body hidden" id="meu-body">
+      <p>A Marine Expeditionary Unit (~2,500 Marines and sailors) is being sent to the Middle East, per CNN and the Wall Street Journal. MEUs are rapid-response forces designed for large-scale evacuations, amphibious operations, ship-to-shore raids and assaults. They include ground and aviation combat components, and some units are trained for special operations.</p>
+      <p>While the Trump administration says there are "no current plans" for ground troops in Iran, they have <span class="accent">refused to rule it out</span>. The MEU gives commanders additional options for a range of contingencies.</p>
+      <p class="meu-banner__note">An MEU is not a nuclear seizure force — but it is the kind of unit that secures perimeters, holds airfields, and provides the logistics backbone for exactly the kind of operation described below.</p>
+    </div>
+  </div>
+
+  <!-- SITES -->
+  <div style="margin-bottom:48px">
+    <h2 class="section-label">Three Sites · One Problem</h2>
+    <div class="sites-grid">
+      <div class="site-card site-card--primary">
+        <div class="site-card__dist">500km+ from Gulf</div>
+        <div class="site-card__name">Isfahan</div>
+        <div class="site-card__status">Primary stockpile</div>
+        <div class="site-card__note">Tunnel entrances sealed with dirt, Feb 2025</div>
+      </div>
+      <div class="site-card">
+        <div class="site-card__dist">~550km from Gulf</div>
+        <div class="site-card__name">Natanz</div>
+        <div class="site-card__status">Some HEU remains</div>
+        <div class="site-card__note">Major enrichment facility, partially above ground</div>
+      </div>
+      <div class="site-card">
+        <div class="site-card__dist">~600km from Gulf</div>
+        <div class="site-card__name">Fordow</div>
+        <div class="site-card__status">Some HEU remains</div>
+        <div class="site-card__note">Buried deep inside a mountain, bombed June 2024</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="separator"></div>
+
+  <!-- OPERATION PHASES -->
+  <div style="margin-bottom:48px">
+    <h2 class="section-label">The Operation</h2>
+    <p class="section-sub">Four phases, each harder than the last. Select a phase to explore.</p>
+    <div id="phases-container"></div>
+    <div id="phase-detail"></div>
+  </div>
+
+  <div class="separator"></div>
+
+  <!-- TRILEMMA -->
+  <div style="margin-bottom:48px">
+    <h2 class="section-label">The Trilemma</h2>
+    <p style="font-size:15px;line-height:1.7;color:#9a968e;margin-bottom:8px">Once you control the site, you face three options for the uranium hexafluoride. None are good.</p>
+    <p class="section-sub">Select an option to see its full risk profile.</p>
+    <div class="options-grid" id="options-container"></div>
+    <div id="option-detail"></div>
+  </div>
+
+  <div class="separator"></div>
+
+  <!-- CHEMISTRY -->
+  <div style="margin-bottom:48px">
+    <h2 class="section-label">The Chemistry That Makes It Lethal</h2>
+    <div class="chem-row">
+      <div class="chem-row__formula" style="color:#8b7355">UF₆</div>
+      <div>
+        <div class="chem-row__name">Uranium Hexafluoride</div>
+        <div class="chem-row__desc">The form in which enriched uranium is stored. Gaseous when heated, solid at room temperature. Highly reactive with moisture.</div>
+      </div>
+    </div>
+    <div class="chem-row">
+      <div class="chem-row__formula" style="color:#c23616">HF</div>
+      <div>
+        <div class="chem-row__name">Hydrogen Fluoride</div>
+        <div class="chem-row__desc">Released when UF₆ is dispersed. Penetrates skin on contact, destroys tissue, attacks bone calcium. Lethal in small concentrations in enclosed spaces.</div>
+      </div>
+    </div>
+    <div class="chem-row">
+      <div class="chem-row__formula" style="color:#e1b12c">UO₂F₂</div>
+      <div>
+        <div class="chem-row__name">Uranyl Fluoride</div>
+        <div class="chem-row__desc">Forms when moisture contacts UF₆ during transport. Toxic and radioactive solid. The reaction is exothermic — generates heat that can cause container rupture.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="separator"></div>
+
+  <!-- CRITICALITY -->
+  <div style="margin-bottom:48px">
+    <h2 class="section-label section-label--red">The Hidden Danger: Criticality</h2>
+    <div class="crit-box">
+      <p>The 19 cylinders of UF₆ are kept physically separated by piping infrastructure. This isn't just plumbing — <strong>the geometry of the arrangement is the safety system</strong>. If enough fissile material is brought together in the wrong configuration, it reaches criticality: an uncontrolled, self-sustaining nuclear chain reaction.</p>
+      <p>This isn't a nuclear detonation — but it produces a lethal burst of neutron and gamma radiation that would kill anyone nearby within hours or days. Special forces teams that don't understand this and begin dismantling piping to access cylinders could trigger exactly this event.</p>
+      <div class="crit-box__quote">
+        "The special ops team MUST understand that the piping structures must not be removed."
+        <br><span class="crit-box__attr">— Cheryl Rofer, former nuclear researcher, Los Alamos National Laboratory</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="separator"></div>
+
+  <!-- BOTTOM LINE -->
+  <div style="margin-bottom:48px">
+    <h2 class="section-label">The Bottom Line</h2>
+    <div class="bottom-box">
+      <blockquote>"There's no doubt that the US can do it. They're probably the only military in the world that could. But you either do it incredibly small and insert in a very covert way, or you go in at scale — you essentially turn that part of Iran into the United States of America for a while."</blockquote>
+      <div class="bottom-box__attr">— Former Western military chief</div>
+      <div class="separator" style="margin:28px 0"></div>
+      <p class="bottom-box__text">Even a tactically "successful" operation doesn't end with capturing the building. The material itself poses a set of problems with no clean solution — only tradeoffs between contamination, time exposure, transport risk, and whether you've truly eliminated the threat or merely transformed it into a different kind of hazard. Performing this at all three sites would amount to one of the largest raids in military history. The deployment of a Marine Expeditionary Unit to the region suggests contingency planning is underway — but the gap between planning and execution, in this case, is filled with uranium hexafluoride.</p>
+    </div>
+  </div>
+
+  <!-- SOURCES -->
+  <div class="sources">
+    <div class="sources__label">Sources</div>
+    <div class="sources__text">The Economist, March 2026 · CNN, March 13 2026 · Wall Street Journal · IAEA (Rafael Grossi) · IISS (Daniel Salisbury) · Harvard Kennedy School (Matthew Bunn) · Bulletin of the Atomic Scientists (François Diaz-Maurin) · Los Alamos (Cheryl Rofer)</div>
+  </div>
+</div>
+
+<script>
+// DATA
+const PHASES = [
+  { id:"locate", num:"01", title:"Locate the Material", subtitle:"Where is the HEU?",
+    detail:"Iran's ~400kg stockpile of highly enriched uranium — enough for roughly ten nuclear weapons if enriched further — is spread across multiple sites. The IAEA confirmed on March 9th that HEU is \"mainly\" at Isfahan in central Iran, with additional material at Natanz and Fordow. Isfahan's tunnel entrances were sealed with dirt in February 2025. Fordow is buried deep inside a mountain, bombed last June. Even knowing the locations, the material may have been moved, hidden in smaller caches, or redistributed since the last IAEA inspections.",
+    risk:"Intelligence gaps — material may have been moved since last verified", icon:"◎" },
+  { id:"access", num:"02", title:"Get There & Get In", subtitle:"500km+ into hostile territory",
+    detail:"Isfahan lies at least 500km inland from the Persian Gulf. MH-47G Chinooks from the 160th SOAR could reach it, but would need mid-air refuelling to return. Before any ground insertion, Trump has stated Iran must be \"so decimated that they wouldn't be able to fight on the ground level.\" This means massive preliminary airstrikes on Iranian bases near the target. Airborne forces would then need to seize a nearby airfield (Badr airbase, 10km away) or create a makeshift airstrip, then parachute in heavy equipment: nuclear-handling gear, diggers to clear rubble from sealed tunnel entrances, and combat engineering tools.",
+    risk:"Enormous logistical exposure — air corridors, refuelling, airstrip security", icon:"⬡" },
+  { id:"secure", num:"03", title:"Hold the Perimeter", subtitle:"A battalion-scale occupation",
+    detail:"At minimum, ~1,000 troops must hold a defensive perimeter around each nuclear complex — potentially for days. They need constant air cover: real-time satellite imagery, loitering drones, recon planes, and strike aircraft. This requires a massive fleet of refuelling tankers to keep air power aloft continuously. Israel's special forces and combat engineers have relevant tunnel experience from Hamas and Hezbollah operations, but would need to borrow American cargo planes. America's JSOC has trained for exactly this scenario — practising seizure of nuclear weapons in deep underground shelters at a Nevada test site — but rehearsal time would be needed.",
+    risk:"Extended ground exposure in hostile territory with stretched supply lines", icon:"⬢" },
+  { id:"handle", num:"04", title:"Handle the HEU", subtitle:"The most dangerous phase",
+    detail:"The uranium hexafluoride (UF₆) is stored as gas in approximately 19 scuba-type cylinders, deliberately kept apart by piping infrastructure to prevent accidental criticality — an uncontrolled chain reaction. The piping is itself a safety system: if special ops teams remove or rearrange it without understanding this, they could bring enough fissile material together to trigger a criticality event, producing a lethal radiation burst. Every option for dealing with the material carries severe risks.",
+    risk:"Criticality accident if containment geometry is disturbed", icon:"⚛" }
+];
+
+const OPTIONS = [
+  { id:"destroy", title:"Destroy in Place", action:"Detonate explosives to disperse the UF₆",
+    pros:["Immediate denial of material to Iran","No transport risk","Fastest option"],
+    cons:["UF₆ deposits on walls, rocks, rubble — potentially recoverable over time","Releases hydrogen fluoride (HF) — extremely toxic, penetrates skin, lethal in small doses","Creates long-term radioactive contamination zone","Own forces in confined underground space face extreme chemical hazard"],
+    verdict:"Solves the immediate problem but creates a chemical weapons event underground and leaves recoverable traces.",
+    severity:3, color:"#c23616" },
+  { id:"downblend", title:"Downblend On-Site", action:"Mix HEU with depleted uranium to reduce enrichment below weapons-grade",
+    pros:["Technically elegant — proven method (US-Russia Megatons to Megawatts program)","Permanently reduces proliferation risk","No transport of weapons-grade material"],
+    cons:["Requires trucking heavy industrial equipment through hostile Iranian territory","Complex chemical process requiring expertise and time (days, not hours)","Still leaves nuclear material on site, just at lower enrichment","Troops must hold perimeter for extended period during processing"],
+    verdict:"The cleanest technical solution but logistically near-impossible in a contested military operation.",
+    severity:2, color:"#e1b12c" },
+  { id:"extract", title:"Extract & Remove", action:"Load cylinders onto aircraft and fly them out of Iran",
+    pros:["Complete removal of all fissile material","Best nonproliferation outcome","Denies Iran any possibility of recovery"],
+    cons:["Moisture entering cylinders produces uranyl fluoride (toxic, radioactive) and hydrofluoric acid gas (lethally corrosive)","Exothermic reaction could cause pressure buildup and explosion","19+ heavy cylinders requiring careful handling under time pressure","Any cylinder breach during helicopter/aircraft transport is catastrophic"],
+    verdict:"The ideal outcome, but the transport chemistry makes every cylinder a potential bomb.",
+    severity:3, color:"#c23616" }
+];
+
+// STATE
+let activePhase = 0;
+let activeOption = null;
+
+// MEU TOGGLE
+function toggleMEU() {
+  const body = document.getElementById('meu-body');
+  const arrow = document.getElementById('meu-arrow');
+  body.classList.toggle('hidden');
+  arrow.textContent = body.classList.contains('hidden') ? '▸' : '▾';
+}
+
+// RENDER PHASES
+function renderPhases() {
+  const container = document.getElementById('phases-container');
+  container.innerHTML = PHASES.map((p, i) => `
+    <button class="phase-btn ${i === activePhase ? 'active' : ''}" onclick="setPhase(${i})">
+      <span class="phase-btn__icon">${p.icon}</span>
+      <div>
+        <div class="phase-btn__head">
+          <span class="phase-btn__num">${p.num}</span>
+          <span class="phase-btn__title">${p.title}</span>
+        </div>
+        <div class="phase-btn__sub">${p.subtitle}</div>
+      </div>
+    </button>
+  `).join('');
+
+  document.getElementById('phase-detail').innerHTML = `
+    <div class="detail-box">
+      <p class="detail-box__text">${PHASES[activePhase].detail}</p>
+      <div class="detail-box__risk">⚠ ${PHASES[activePhase].risk}</div>
+    </div>
+  `;
+}
+
+function setPhase(i) {
+  activePhase = i;
+  renderPhases();
+}
+
+// RENDER OPTIONS
+function renderOptions() {
+  const container = document.getElementById('options-container');
+  container.innerHTML = OPTIONS.map((o, i) => `
+    <div class="option-card ${activeOption === i ? 'active' : ''}" onclick="setOption(${i})"
+         style="${activeOption === i ? 'border-color:' + o.color + '88' : ''}">
+      <div class="option-card__num" style="color:${o.color}">Option ${i+1}</div>
+      <div class="option-card__title">${o.title}</div>
+      <div class="option-card__action">${o.action}</div>
+      <div class="risk-bar"><div class="risk-fill" style="width:${activeOption === i ? o.severity*33 : 0}%;background:${o.color}"></div></div>
+    </div>
+  `).join('');
+
+  const detailEl = document.getElementById('option-detail');
+  if (activeOption === null) { detailEl.innerHTML = ''; return; }
+
+  const o = OPTIONS[activeOption];
+  detailEl.innerHTML = `
+    <div class="option-detail" style="border-color:${o.color}33">
+      <div class="procon">
+        <div class="procon__col">
+          <div class="procon__label" style="color:#5a8a5a">What it achieves</div>
+          ${o.pros.map(p => `<div class="procon__item"><span style="color:#5a8a5a;flex-shrink:0">+</span>${p}</div>`).join('')}
+        </div>
+        <div class="procon__col">
+          <div class="procon__label" style="color:${o.color}">What can go wrong</div>
+          ${o.cons.map(c => `<div class="procon__item"><span style="color:${o.color};flex-shrink:0">−</span>${c}</div>`).join('')}
+        </div>
+      </div>
+      <div class="procon__verdict" style="border-left-color:${o.color}66">${o.verdict}</div>
+    </div>
+  `;
+}
+
+function setOption(i) {
+  activeOption = activeOption === i ? null : i;
+  renderOptions();
+}
+
+// INIT
+renderPhases();
+renderOptions();
+</script>
+</body>
+</html>
